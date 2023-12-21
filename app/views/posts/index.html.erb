@@ -1,0 +1,16 @@
+<%= turbo_stream_from "posts" %>
+<div class="container">
+  <div class="header">
+    <h1>Posts</h1>
+    <%= link_to "New post",
+                new_post_path,
+                class: "btn btn--primary",
+                data: { turbo_frame: dom_id(Post.new) } %>
+  </div>
+
+  <%= turbo_frame_tag Post.new %>
+
+  <%= turbo_frame_tag "posts" do %>
+      <%= render @posts %>
+  <% end %>
+</div>
