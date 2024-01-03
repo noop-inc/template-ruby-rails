@@ -11,7 +11,7 @@ components:
         - run: apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3 postgresql-client
         - run: curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/
         - run: /tmp/node-build-master/bin/node-build 20.10.0 /usr/local/node
-        - run: /usr/local/node/bin/npm install -g yarn@latest
+        - run: /usr/local/node/bin/npm install -g yarn@1.22.19
         - run: rm -rf /tmp/node-build-master
         - copy: [Gemfile, Gemfile.lock]
           destination: ./
