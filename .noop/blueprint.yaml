@@ -11,7 +11,7 @@ components:
         - run: apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3 postgresql-client
         - run: curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/
         - run: /tmp/node-build-master/bin/node-build 20.10.0 /usr/local/node
-        - run: /usr/local/node/bin/npm install -g yarn@1.22.4
+        - run: /usr/local/node/bin/npm install -g yarn@latest
         - run: rm -rf /tmp/node-build-master
         - copy: [Gemfile, Gemfile.lock]
           destination: ./
@@ -28,11 +28,14 @@ components:
     runtime: 
       entrypoint: "/rails/bin/docker-entrypoint"
       command: "./bin/rails server"
-      resources: 
+      resources:
         - PgDatabase
-      variables: 
-        DATABASE_URL: 
+        - RecordCache
+      variables:
+        DATABASE_URL:
           $resources: PgDatabase.url
+        REDIS_URL:
+          $resources: RecordCache.url
         SERVER_ADDR: "rails.local.noop.app"
 routes: 
   - target: 
