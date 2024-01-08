@@ -20,8 +20,7 @@ components:
         - run: bundle exec bootsnap precompile --gemfile
         - copy: [package.json, yarn.lock]
           destination: ./
-        - run: yarn config set registry https://registry.npmjs.org
-        - run: yarn install --frozen-lockfile
+        - run: yarn config set registry https://registry.npmjs.org && yarn install --frozen-lockfile
         - copy: .
           destination: ./
         - run: bundle exec bootsnap precompile app/ lib/
