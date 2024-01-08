@@ -20,6 +20,7 @@ components:
         - run: bundle exec bootsnap precompile --gemfile
         - copy: [package.json, yarn.lock]
           destination: ./
+        - run: yarn config set "strict-ssl" false -g
         - run: yarn install --frozen-lockfile
         - copy: .
           destination: ./
