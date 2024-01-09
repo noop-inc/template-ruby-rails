@@ -28,12 +28,15 @@ components:
         - run: SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
     runtime: 
       entrypoint: "/rails/bin/docker-entrypoint"
-      command: "./bin/rails server"
-      resources: 
+      command: "./bin/rails server -b 0.0.0.0"
+      resources:
         - PgDatabase
-      variables: 
-        DATABASE_URL: 
+        - RecordCache
+      variables:
+        DATABASE_URL:
           $resources: PgDatabase.url
+        REDIS_URL:
+          $resources: RecordCache.url
         SERVER_ADDR: "rails.local.noop.app"
 routes: 
   - target: 
