@@ -28,7 +28,7 @@ components:
         - run: SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
     runtime: 
       entrypoint: "/rails/bin/docker-entrypoint"
-      command: "./bin/rails server"
+      command: "./bin/rails server -b 0.0.0.0"
       resources:
         - PgDatabase
         - RecordCache
