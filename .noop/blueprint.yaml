@@ -21,6 +21,7 @@ components:
         - copy: [package.json, yarn.lock]
           destination: ./
         - run: yarn install --frozen-lockfile
+        #- run: /usr/local/node/bin/npm install ci
         - copy: .
           destination: ./
         - run: bundle exec bootsnap precompile app/ lib/

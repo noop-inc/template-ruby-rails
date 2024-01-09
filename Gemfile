@@ -4,8 +4,6 @@ ruby "3.2.2"
 
 gem "simple_form", "~> 5.1.0"
 
-gem "turbo-rails"
-
 gem "redis"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
