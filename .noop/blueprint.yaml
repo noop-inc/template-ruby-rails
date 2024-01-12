@@ -21,7 +21,6 @@ components:
         - copy: [package.json, yarn.lock]
           destination: ./
         - run: yarn install --frozen-lockfile
-        #- run: /usr/local/node/bin/npm install ci
         - copy: .
           destination: ./
         - run: bundle exec bootsnap precompile app/ lib/
@@ -29,13 +28,13 @@ components:
     runtime: 
       entrypoint: "/rails/bin/docker-entrypoint"
       command: "./bin/rails server -b 0.0.0.0"
-      resources:
+      resources: 
         - PgDatabase
         - RecordCache
-      variables:
-        DATABASE_URL:
+      variables: 
+        DATABASE_URL: 
           $resources: PgDatabase.url
-        REDIS_URL:
+        REDIS_URL: 
           $resources: RecordCache.url
         SERVER_ADDR: "rails.local.noop.app"
 routes: 
