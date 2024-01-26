@@ -87,7 +87,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.hosts = ["rails.noop.app"]
+  config.hosts = ["rails.noop.app", "rails.local.noop.app", "noop-rails.local.noop.app"]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [

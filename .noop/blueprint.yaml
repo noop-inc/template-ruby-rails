@@ -28,20 +28,46 @@ components:
     runtime: 
       entrypoint: "/rails/bin/docker-entrypoint"
       command: "./bin/rails server -b 0.0.0.0"
-      resources: 
+      resources:
         - PgDatabase
         - RecordCache
-      variables: 
-        DATABASE_URL: 
+      variables:
+        DATABASE_URL:
           $resources: PgDatabase.url
-        REDIS_URL: 
+        REDIS_URL:
           $resources: RecordCache.url
-        SERVER_ADDR: "rails.local.noop.app"
-routes: 
-  - target: 
-      component: RailsApp
+        SERVER_ADDR: "noop-rails.local.noop.app"
 
-resources: 
+  - name: Migrate
+    type: task
+    image: ruby:3.2.2-slim
+    build:
+      steps:
+        - directory: /rails
+        - run: apt-get update
+        - run: apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3 postgresql-client
+        - copy: [Gemfile, Gemfile.lock]
+          destination: ./
+        - run: bundle install
+        - run: rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+        - run: bundle exec bootsnap precompile --gemfile
+        - copy: .
+          destination: ./
+    runtime:
+      command: "./bin/rails db:migrate"
+      resources:
+        - PgDatabase
+      variables:
+        DATABASE_URL:
+          $resources: PgDatabase.url
+lifecycles:
+  - event: BeforeServices
+    components:
+    - Migrate
+routes:
+  - target:
+      component: RailsApp
+resources:
   - name: PgDatabase
     type: postgresql
   - name: RecordCache
